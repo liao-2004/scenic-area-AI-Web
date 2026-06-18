@@ -1,6 +1,6 @@
 // 统一接口封装：所有 axios 请求集中在此，组件中只调用这里导出的方法。
 // 默认走主服务 http(BaseUrl 3000)，需要 4000 端口时改用 http1(BaseUrl1)。
-import { http, http1, BaseUrl, BaseUrl1 } from './request'
+import { http, http1, BaseUrl, BaseUrl1 } from '../utils/request.js'
 
 export { http, http1, BaseUrl, BaseUrl1 }
 

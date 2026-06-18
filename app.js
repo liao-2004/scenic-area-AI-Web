@@ -17,7 +17,6 @@ const auth = require('./router/auth.js');
 const news = require('./router/news.js');
 const mqtt_pub = require('./router/mqtt_pub.js');
 const mqtt_sub = require('./router/mqtt_sub.js');
-const AI_api = require('./router/ai_api.js');
 const mqtt = require('./router/mqtt.js');
 
 const app = new Koa();
@@ -43,8 +42,6 @@ app.use(mqtt_sub.allowedMethods());
 app.use(mqtt.routes());
 app.use(mqtt.allowedMethods());
 app.use(static(path.join(__dirname, 'dist')));
-app.use(AI_api.routes());
-app.use(AI_api.allowedMethods());
 const dbSetupSuccess =  setupDatabase();
 // 启动 user_data 过期数据定时清理（删除 time 早于 30 分钟前的记录）
 startCleanup();
