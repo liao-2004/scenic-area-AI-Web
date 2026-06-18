@@ -1,0 +1,47 @@
+<template>
+  </template>
+  
+  <script>
+  
+  export default {
+  }
+  </script>
+  
+  <style>
+  
+  </style>
+  
+
+
+
+
+
+  <div>
+    <thead>
+            <tr>
+              <th>设备名称</th>
+              <th>编号</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+      </thead>
+      <tbody>
+            <!-- 设备列表数据动态生成 -->
+            <tr>
+              <td>设备A</td>
+              <td>001</td>
+              <td>2023-01-01 12:00:00</td>
+              <td>
+                <button>查看详情</button>
+                <button>编辑</button>
+                <button>删除</button>
+              </td>
+            </tr>
+            <!-- 更多设备条目 -->
+          </tbody>
+          <div class="pagination">
+          <button>上一页</button>
+          <span>第1页</span>
+          <button>下一页</button>
+        </div>
+  </div>
