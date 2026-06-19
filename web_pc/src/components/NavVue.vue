@@ -8,6 +8,7 @@
         <a href="#/wulian" class="nav-link">景区管理</a>
         <a href="#/aichat" class="nav-link">智能AI</a>
         <a href="#/publish" class="nav-link">发布文章</a>
+        <a href="#/article" class="nav-link">文章管理</a>
       </nav>
     </header>
     <main class="content">

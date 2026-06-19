@@ -31,8 +31,16 @@ export const mqttPubSos = () => http.get('/mqtt_pub/sos')
 // ===== 新闻 =====
 // 导航分类列表
 export const newsNavlist = () => http.get('/api/news/navlist')
+// 文章列表（params: { cid, page }）
+export const newsList = params => http.get('/api/news/newslist', { params })
+// 文章详情（含正文）
+export const newsDetail = id => http.get('/api/news/detail', { params: { id } })
 // 发布新闻（FormData）
 export const newsPublish = data => http.post('/api/news/publish', data)
+// 编辑文章（FormData）
+export const newsUpdate = data => http.post('/api/news/update', data)
+// 删除文章
+export const newsDelete = data => http.post('/api/news/delete', data)
 
 // ===== AI =====
 // 视觉对话（FormData：text + 可选 image）

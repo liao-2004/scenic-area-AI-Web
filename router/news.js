@@ -14,5 +14,9 @@ router.get('/newslist', newsHandle.newslist)
 router.get('/detail', newsHandle.detail)
 // 发布文章（web 端，支持上传封面图，字段名 image）
 router.post('/publish', upload.single('image'), newsHandle.publish)
+// 编辑文章（支持可选替换封面图）
+router.post('/update', upload.single('image'), newsHandle.update)
+// 删除文章
+router.post('/delete', newsHandle.remove)
 
 module.exports = router

@@ -142,3 +142,69 @@ exports.publish = async (ctx) => {
         ctx.body = { code: 1, message: '发布失败' }
     }
 }
+
+// ===== 编辑文章（web 端）=====
+// POST /api/news/update  FormData: id, title, author, classid, content, picurl(原封面), image(可选新封面)
+// 不上传新图且 picurl 传原值时保留原封面
+exports.update = async (ctx) => {
+    const body = ctx.request.body || {}
+    const id = body.id
+    if (!id) {
+        ctx.status = 400
+        ctx.body = { code: 1, message: '缺少 id 参数' }
+        return
+    }
+    const title = (body.title || '').trim()
+    const author = (body.author || '').trim() || '匿名'
+    const classid = body.classid || null
+    const content = body.content || ''
+    if (!title) {
+        ctx.status = 400
+        ctx.body = { code: 1, message: '标题不能为空' }
+        return
+    }
+    if (!content) {
+        ctx.status = 400
+        ctx.body = { code: 1, message: '正文不能为空' }
+        return
+    }
+
+    // 上传了新文件则替换封面，否则沿用表单回传的原 picurl
+    let picurl = (body.picurl || '').trim()
+    if (ctx.file) {
+        picurl = `/req_file/${ctx.file.filename}`
+    }
+
+    try {
+        const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        await queryAsync(
+            `update article set title = ?, author = ?, picurl = ?, content = ?, classid = ?, updatedAt = ?
+             where id = ?`,
+            [title, author, picurl, content, classid, now, id]
+        )
+        ctx.body = { code: 0, message: '更新成功' }
+    } catch (err) {
+        console.error('更新文章失败:', err.message)
+        ctx.status = 500
+        ctx.body = { code: 1, message: '更新失败' }
+    }
+}
+
+// ===== 删除文章 =====
+// POST /api/news/delete  body: { id }
+exports.remove = async (ctx) => {
+    const { id } = ctx.request.body || {}
+    if (!id) {
+        ctx.status = 400
+        ctx.body = { code: 1, message: '缺少 id 参数' }
+        return
+    }
+    try {
+        await queryAsync('delete from article where id = ?', [id])
+        ctx.body = { code: 0, message: '删除成功' }
+    } catch (err) {
+        console.error('删除文章失败:', err.message)
+        ctx.status = 500
+        ctx.body = { code: 1, message: '删除失败' }
+    }
+}
