@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const BaseUrl = '/'    // 主服务（Node 后端）
-export const BaseUrl1 = '/'   // 备用服务
+export const BaseUrl = 'http://120.27.201.60/'    // 主服务（Node 后端）
+export const BaseUrl1 = 'http://120.27.201.60/'   // 备用服务
   
 // 主服务实例（默认所有接口都走这里）
 export const http = axios.create({

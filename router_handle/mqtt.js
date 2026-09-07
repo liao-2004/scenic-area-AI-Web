@@ -41,6 +41,7 @@ exports.mqtt_load=async(ctx)=>{
             lat:item.zuobiao.split(',')[0],
             lng:item.zuobiao.split(',')[1],
             dzwl:item.dzwl
+            no:item.no
         })))
 }
 exports.bug_mysql = async (ctx) => {

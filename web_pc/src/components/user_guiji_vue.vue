@@ -20,7 +20,7 @@
                         :styles="styles"
                         :options="options"
                     />
-                <!-- 用户当前位置：用 人流量.png 标记 -->
+                <!-- 用户当前位置：用 用户坐标 (2).png 标记 -->
                 <tlbs-multi-marker
                         ref="markerRef"
                         :geometries="markerGeometries"
@@ -50,8 +50,8 @@ export default {
                 marker: {
                 width: 16,
                 height: 16,
-                anchor: { x: 16, y: 32 },
-                src: '/人流量.png', // 用户位置图标
+                anchor: { x: 16, y: 10 },
+                src: '/用户坐标 (2).png', // 用户位置图标
                 imageSize: { width: 16, height: 16 }
                 },
                 polyline: {
@@ -103,7 +103,7 @@ export default {
                 // 地图中心定位到最新一个点
                 const last = data[data.length-1]
                 this.center = { lat: Number(last.lat), lng: Number(last.lng) }
-                // 用 人流量.png 在用户最新位置打标记
+                // 用 用户坐标 (2).png 在用户最新位置打标记
                 this.markerGeometries = [
                     {
                         id: 'user-marker',

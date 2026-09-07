@@ -5,11 +5,11 @@
             <div :style="{display:'flex',justifyContent:'space-between',gap:'40px'}">
               <div>
                 <div>
-                  <img src="../../public/人流量.png" :style="{height:'10px',width:'10px'}">
+                  <img src="../../public/用户坐标 (1).png" :style="{ width: '20px', height: '20px', verticalAlign: 'middle', marginRight: '4px' }">
                   <span :style="{fontSize:'12px'}"> 用户实时定位</span>
                 </div>
                 <div>
-                  <img src="../../public/人流量1.png" :style="{height:'10px',width:'10px'}">
+                  <img src="../../public/用户坐标 (2).png" :style="{ width: '20px', height: '20px', verticalAlign: 'middle', marginRight: '4px' }">
                   <span :style="{fontSize:'12px'}"> 电子围栏区域外用户定位</span>
                 </div>
               </div>
@@ -212,14 +212,14 @@ export default {
                     width: 24,
                     height: 24,
                     anchor: { x: 12, y: 12 },
-                    src: '/人流量1.png',
+                    src: '/用户坐标 (1).png',
                     imageSize: { width: 24, height: 24 }
                 },
         marker_dzwl0: {
                     width: 24,
                     height: 24,
                     anchor: { x: 12, y: 12 },
-                    src: '/人流量.png',
+                    src: '/用户坐标 (2).png',
                     imageSize: { width: 24, height: 24 }
                 },
         polyline: {

@@ -8,7 +8,7 @@
             <i class="el-icon-cpu"></i>
           </div>
           <div class="header-info">
-            <div class="header-title">豆包 · 视觉问答</div>
+            <div class="header-title">豆包 · 景区智能助手</div>
             <div class="header-status">
               <span class="dot" :class="{ busy: loading }"></span>
               {{ loading ? '正在思考…' : '在线' }}

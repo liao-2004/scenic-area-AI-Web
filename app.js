@@ -10,8 +10,7 @@ global.ReadableStream = ReadableStream; // 让全局环境能访问到 ReadableS
 // 引入 Blob Polyfill 并全局注册
 const { Blob } = require('blob-polyfill');
 global.Blob = Blob; // 让全局环境能访问到 Blob
- const { setupDatabase } = require('./dbSetup');
-const { startCleanup } = require('./db/cleanup');
+const { setupDatabase } = require('./dbSetup');
 const router = require('./router/user.js');
 const auth = require('./router/auth.js');
 const news = require('./router/news.js');
@@ -43,12 +42,6 @@ app.use(mqtt.routes());
 app.use(mqtt.allowedMethods());
 app.use(static(path.join(__dirname, 'dist')));
 const dbSetupSuccess =  setupDatabase();
-// 启动 user_data 过期数据定时清理（删除 time 早于 30 分钟前的记录）
-startCleanup();
-app.use(async (ctx) => { 
-  ctx.type = 'text/html';
-  ctx.body = await fs.readFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
 app.listen(port, () => {
   console.log(`Server is running at http://127.0.0.1:${port}`);
 });
