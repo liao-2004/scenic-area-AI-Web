@@ -4,9 +4,6 @@
       <!-- 头部 -->
       <div class="chat-header">
         <div class="header-left">
-          <div class="ai-avatar header-avatar">
-            <i class="el-icon-cpu"></i>
-          </div>
           <div class="header-info">
             <div class="header-title">豆包 · 景区智能助手</div>
             <div class="header-status">
@@ -26,7 +23,7 @@
       <div class="chat-body" ref="chatBody">
         <!-- 欢迎页 -->
         <div v-if="messages.length === 0" class="welcome">
-          <div class="welcome-logo"><i class="el-icon-magic-stick"></i></div>
+          <div class="welcome-logo"><img src="/客服.png" :style="{height:'40px'}"></div>
           <h2 class="welcome-title">你好</h2>
           <p class="welcome-sub">向我提问，或上传一张图片让我帮你识别、描述与分析。</p>
           <div class="suggest-grid">
