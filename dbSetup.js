@@ -4,10 +4,10 @@ const path = require('path');
 
 // 数据库配置 - 请根据实际情况修改
 const config = {
-  host: 'localhost',
-  user: 'root',         // 你的MySQL用户名
-  password: '123456', // 你的MySQL密码
-  database: 'vue_beidou4'   // 目标数据库名称
+  host: process.env.DB_HOST || 'mysql',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '123456',
+  database: process.env.DB_NAME || 'vue_beidou4',
 };
 
 function readSqlFile(filePath) {

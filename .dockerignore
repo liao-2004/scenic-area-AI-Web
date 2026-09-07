@@ -1,0 +1,9 @@
+node_modules
+web_pc/node_modules
+web_pc/dist
+.git
+.gitignore
+*.md
+Dockerfile
+docker-compose.yml
+.dockerignore
