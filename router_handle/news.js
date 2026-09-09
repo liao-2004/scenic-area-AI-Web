@@ -1,13 +1,7 @@
-// 新闻文章接口处理
-// 对接 uni-app 首页/详情页（导航、列表、详情），以及 web 端发布文章
-// 响应字段刻意对齐原第三方接口（青年帮），前端几乎无需改动：
-//   navlist  -> [{ id, classname }]
-//   newslist -> [{ id, title, picurl, posttime, hits, classid, author }]
-//   detail   -> { id, title, content, author, posttime, picurl, classid, hits }
+
 const index = require('../db/index')
 const dayjs = require('dayjs')
 
-// 简易 promise 封装（与 auth.js 风格一致）
 function queryAsync(sql, params) {
     return new Promise((resolve, reject) => {
         index.query(sql, params, (err, results) => {
@@ -17,11 +11,8 @@ function queryAsync(sql, params) {
     })
 }
 
-// 每页条数
 const PAGE_SIZE = 10
 
-// ===== 导航分类列表 =====
-// GET /api/news/navlist  -> [{ id, classname }]
 exports.navlist = async (ctx) => {
     try {
         const rows = await queryAsync(
@@ -36,8 +27,6 @@ exports.navlist = async (ctx) => {
     }
 }
 
-// ===== 新闻列表（按分类 + 分页）=====
-// GET /api/news/newslist?cid=&page=
 exports.newslist = async (ctx) => {
     const cid = ctx.query.cid
     const page = Math.max(1, parseInt(ctx.query.page) || 1)
@@ -66,8 +55,6 @@ exports.newslist = async (ctx) => {
     }
 }
 
-// ===== 新闻详情 =====
-// GET /api/news/detail?id=
 exports.detail = async (ctx) => {
     const id = ctx.query.id
     if (!id) {
@@ -76,7 +63,6 @@ exports.detail = async (ctx) => {
         return
     }
     try {
-        // 浏览量 +1
         await queryAsync('update article set hits = hits + 1 where id = ?', [id])
         const rows = await queryAsync(
             `select id, title, content, author, posttime, picurl, classid, hits
@@ -95,10 +81,6 @@ exports.detail = async (ctx) => {
         ctx.body = { code: 1, message: '查询失败' }
     }
 }
-
-// ===== 发布文章（web 端）=====
-// POST /api/news/publish  FormData: title, author, classid, content, image(可选文件)
-// multer 中间件解析后：文本在 ctx.request.body，文件在 ctx.file
 exports.publish = async (ctx) => {
     const body = ctx.request.body || {}
     const title = (body.title || '').trim()
@@ -117,10 +99,8 @@ exports.publish = async (ctx) => {
         return
     }
 
-    // 封面图：上传了文件就用文件可访问路径，否则用表单里传的 picurl
     let picurl = (body.picurl || '').trim()
     if (ctx.file) {
-        // multer 存到 public/req_file，public 已作为静态目录挂载
         picurl = `/req_file/${ctx.file.filename}`
     }
 
@@ -143,9 +123,6 @@ exports.publish = async (ctx) => {
     }
 }
 
-// ===== 编辑文章（web 端）=====
-// POST /api/news/update  FormData: id, title, author, classid, content, picurl(原封面), image(可选新封面)
-// 不上传新图且 picurl 传原值时保留原封面
 exports.update = async (ctx) => {
     const body = ctx.request.body || {}
     const id = body.id
@@ -169,7 +146,6 @@ exports.update = async (ctx) => {
         return
     }
 
-    // 上传了新文件则替换封面，否则沿用表单回传的原 picurl
     let picurl = (body.picurl || '').trim()
     if (ctx.file) {
         picurl = `/req_file/${ctx.file.filename}`
@@ -190,8 +166,6 @@ exports.update = async (ctx) => {
     }
 }
 
-// ===== 删除文章 =====
-// POST /api/news/delete  body: { id }
 exports.remove = async (ctx) => {
     const { id } = ctx.request.body || {}
     if (!id) {

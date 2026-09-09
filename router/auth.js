@@ -1,5 +1,4 @@
 // 微信登录鉴权路由
-// 对应处理函数见 ../router_handle/auth.js
 const Router = require('koa-router')
 const authHandle = require('../router_handle/auth.js')
 

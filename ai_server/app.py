@@ -22,43 +22,33 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 
-# ---------------------------------------------------------------------------
-# 配置（支持环境变量覆盖，便于部署）
-# ---------------------------------------------------------------------------
 API_KEY = os.environ.get("ARK_API_KEY", "ark-09b5b85f-814f-402a-8cec-7dda5a32ba05-26b11")
 BASE_URL = os.environ.get("ARK_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
 MODEL = os.environ.get("ARK_MODEL", "ep-20260612111855-9rkrr")
 PORT = int(os.environ.get("AI_SERVER_PORT", "5000"))
 
-# 字数限制前缀，与原 Node 实现保持一致
 PROMPT_PREFIX = "回答的字数限制在200字以内"
 DEFAULT_TEXT = "你是谁"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("ai_server")
 
-# 初始化客户端
 client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
-# 初始化应用并开启 CORS（允许跨域，与原 Node 服务行为一致）
 app = Flask(__name__)
 CORS(app)
 
 
 @app.route("/ai/chat", methods=["POST"])
 def run_vision_chat():
-    """接收前端 FormData（text 文本 + image 图片文件），调用视觉模型并返回结果。"""
-    # 文本字段：前缀 + 用户输入（为空时使用默认问句）
     user_text = (request.form.get("text") or "").strip() or DEFAULT_TEXT
     text = PROMPT_PREFIX + user_text
 
     file = request.files.get("image")
     logger.info("开始调用火山方舟视觉模型, text=%s, 是否含图片=%s", text, bool(file))
 
-    # 组装消息内容
     content = [{"type": "text", "text": text}]
 
-    # 若前端上传了图片，转成 base64 data URI 一并发送
     if file:
         raw = file.read()
         b64 = base64.b64encode(raw).decode("utf-8")
@@ -81,7 +71,7 @@ def run_vision_chat():
             "message": "success",
             "data": {"answer": answer},
         })
-    except Exception as err:  # noqa: BLE001 - 对前端统一返回错误信息
+    except Exception as err:  # 对前端返回错误信息
         logger.error("调用接口失败：%s", err)
         return jsonify({
             "code": 1,

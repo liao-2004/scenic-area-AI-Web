@@ -44,23 +44,20 @@ router.get('/yuyue_select1',async (ctx) => {
 router.get('/yyy', async (ctx) => {
   console.log('开始查询用户数据');
   try {
-    // 修复rejust拼写错误为reject，添加数据库查询实现
     const results = await new Promise((resolve, reject) => {
       const selectSql = `SELECT * FROM user_data;`;
       
-      // 使用数据库连接池执行查询
       index.query(selectSql, (err, data) => {
         if (err) {
           console.error('查询出错:', err);
-          return reject(err); // 错误时拒绝Promise
+          return reject(err);
         }
-        resolve(data); // 成功时返回查询结果
+        resolve(data); 
       });
     });
     
     ctx.body = ['访问成功', results];
   } catch (error) {
-    // 处理所有可能的错误
     ctx.status = 500;
     ctx.body = '访问失败';
   }

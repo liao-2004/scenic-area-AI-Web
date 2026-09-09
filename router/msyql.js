@@ -1,8 +1,10 @@
+
+
+// 该代码多为演示，每次加载都会重刷数据
 const mysql = require('mysql2');
 const fs = require('fs');
 const path = require('path');
 
-// 数据库配置 - 请根据你的MySQL服务修改
 const config = {
     host: 'localhost',
     user: 'root',         // 你的MySQL用户名
@@ -11,15 +13,12 @@ const config = {
     port: 3306
 };
 
-// 读取SQL文件内容
 function readSqlFile() {
     const sqlPath = path.join(__dirname, 'schema.sql');
     return fs.readFileSync(sqlPath, 'utf8');
 }
 
-// 初始化数据库
 function setupDatabase(callback) {
-    // 1. 先连接到MySQL服务器（不指定数据库）
     const connection = mysql.createConnection({
         host: config.host,
         user: config.user,
@@ -35,7 +34,6 @@ function setupDatabase(callback) {
 
         console.log('成功连接到MySQL服务器');
 
-        // 2. 创建数据库（如果不存在）
         connection.query(`CREATE DATABASE IF NOT EXISTS ${config.database}`, (err) => {
             if (err) {
                 console.error('创建数据库失败:', err.message);
@@ -45,7 +43,6 @@ function setupDatabase(callback) {
 
             console.log(`数据库 ${config.database} 已准备就绪`);
 
-            // 3. 连接到目标数据库
             const dbConnection = mysql.createConnection({
                 ...config,
                 database: config.database
@@ -60,7 +57,6 @@ function setupDatabase(callback) {
 
                 console.log(`成功连接到数据库 ${config.database}`);
 
-                // 4. 读取并执行建表语句
                 const sql = readSqlFile();
                 dbConnection.query(sql, (err) => {
                     dbConnection.end();
